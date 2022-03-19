@@ -1,0 +1,82 @@
+{{!-- <h1>{{data.EnglishName}}</h1>
+<form method="GET" action="/location/show-detail">
+    <button onclick="show()" id="btn-show-location" type="button" class="btn btn-danger">Show</button>
+</form> --}}
+
+
+{{!--
+<script id="temp" type="text/x-handlebars-template">
+    <div>
+        <h2></h2><button class="btn btn-danger">Show</button>
+    </div>
+
+</script>
+<script>
+    const source = ("#temp").html();
+    const template = Handlebars.compile(source);
+    $(document).ready(function () {
+        loadData();
+    });
+
+    function loadData() {
+        $.ajax({
+            url: 'https://jsonplaceholder.typicode.com/posts',
+            type: 'GET',
+            success: function (rs) {
+                console.log(rs)
+            }
+        });
+    }
+</script> --}}
+
+
+
+
+{{!-- document.querySelector("h2").textContent = result.data.LocalizedName --}}
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<ul class="persons"></ul>
+
+<script id="person-template" type="text/x-handlebars-template">
+<li class="person-info">
+  <h3>{{name}}</h3>
+  <div>  
+    {{id}}, {{username}}, {{email}}<br>
+    {{phone}}<br>
+    {{website}}<br>
+  </div>
+  <div class="address">
+      {{address.street}}, {{address.city}}<br>
+      {{address.suite}}<br>
+      {{address.zipcode}}<br>
+      {{address.geo.lat}}<br>
+      {{address.geo.long}}<br>
+  </div>
+</li>
+</script>
+
+<script>
+    var source = $("#person-template").html();
+    var template = Handlebars.compile(source);
+    var person = "";
+    var placeHolder = $("ul.persons");
+
+    $.get("http://jsonplaceholder.typicode.com/users", function (data) {
+        $.each(data, function (idx, val) {
+            person = template(val);
+
+            placeHolder.append(person);
+        });
+
+        placeHolder
+            // Blast the text apart by word.
+            .blast({ delimiter: "word" })
+            // Fade the words into view using Velocity.js.
+            .velocity("transition.fadeIn", {
+                display: null,
+                duration: 100,
+                stagger: 50,
+                delay: 0
+            });
+    });
+</script>
